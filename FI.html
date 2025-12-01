@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APEX観戦マルチビューワー</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        div { border: 1px solid #333; }
+
+        .wrapper {
+            width: 1000px; 
+            margin: 0 auto; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        #map-area {
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #bottom-section {
+            height: 300px;
+            display: flex;
+        }
+
+        #personal-views-area {
+            width: 75%;
+            display: flex;
+        }
+
+        #team-select-area {
+            width: 25%;
+            background-color: #fff3e0;
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        .player-view-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column; 
+        }
+        
+        iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* --- コントロールパネルのスタイル --- */
+        .control-group h4 { margin: 0 0 5px 0; font-size: 14px; color: #333; }
+        .control-group { border: 1px solid #ccc; padding: 5px; margin-bottom: 10px; }
+        .input-row { display: flex; gap: 5px; margin-bottom: 5px; align-items: center; }
+        .input-row label { white-space: nowrap; font-size: 12px; }
+        .input-row input[type="text"] { flex-grow: 1; padding: 3px; border: 1px solid #ccc; font-size: 12px; }
+        .input-row button { padding: 3px 5px; cursor: pointer; background-color: #007bff; color: white; border: none; font-size: 12px; }
+        .input-row button.size-btn { background-color: #4CAF50; }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div id="map-area">
+            <iframe id="map-iframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        </div>
+
+        <div id="bottom-section">
+            <div id="personal-views-area">
+                <div class="player-view-wrapper">
+                    <iframe id="view1-iframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                </div>
+                <div class="player-view-wrapper">
+                    <iframe id="view2-iframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                </div>
+                <div class="player-view-wrapper">
+                    <iframe id="view3-iframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <div id="team-select-area">
+                <div id="control-panel-container">
+                    
+                    <div class="control-group">
+                        <h4>画面サイズ設定</h4>
+                        <div class="input-row">
+                            <label>マップ高:</label>
+                            <input type="text" id="map-height-input" value="300px" placeholder="300px">
+                            <button class="size-btn" onclick="updateSize('map')">更新</button>
+                        </div>
+                        <div class="input-row">
+                            <label>視点幅:</label>
+                            <input type="text" id="view-width-input" value="75%" placeholder="75%">
+                            <label>UI幅:</label>
+                            <input type="text" id="ui-width-input" value="25%" placeholder="25%">
+                        </div>
+                        <div class="input-row">
+                            <label>下部高:</label>
+                            <input type="text" id="bottom-height-input" value="300px" placeholder="300px">
+                            <button class="size-btn" onclick="updateSize('bottom')">更新</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <h4>URL設定（マップ画面）</h4>
+                        <div class="input-row">
+                            <input type="text" id="map-url" placeholder="埋め込みURLを入力">
+                            <button onclick="updateIframe('map')">適用</button>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <h4>URL設定（個人視点）</h4>
+                        <div class="input-row">
+                            <label>視点 1:</label>
+                            <input type="text" id="view1-url" placeholder="URL">
+                            <button onclick="updateIframe('view1')">適用</button>
+                        </div>
+                        <div class="input-row">
+                            <label>視点 2:</label>
+                            <input type="text" id="view2-url" placeholder="URL">
+                            <button onclick="updateIframe('view2')">適用</button>
+                        </div>
+                        <div class="input-row">
+                            <label>視点 3:</label>
+                            <input type="text" id="view3-url" placeholder="URL">
+                            <button onclick="updateIframe('view3')">適用</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateIframe(target) {
+            const inputElement = document.getElementById(`${target}-url`);
+            const iframeElement = document.getElementById(`${target}-iframe`);
+            
+            if (inputElement && iframeElement) {
+                const url = inputElement.value.trim();
+                iframeElement.src = url || '';
+            }
+        }
+
+        function updateSize(target) {
+            if (target === 'map') {
+                const heightInput = document.getElementById('map-height-input');
+                const mapArea = document.getElementById('map-area');
+                if (mapArea && heightInput.value) {
+                    mapArea.style.height = heightInput.value;
+                }
+            } else if (target === 'bottom') {
+                const viewWidthInput = document.getElementById('view-width-input');
+                const uiWidthInput = document.getElementById('ui-width-input');
+                const heightInput = document.getElementById('bottom-height-input');
+                
+                const personalViews = document.getElementById('personal-views-area');
+                const teamSelect = document.getElementById('team-select-area');
+                const bottomSection = document.getElementById('bottom-section');
+
+                if (personalViews && viewWidthInput.value) {
+                    personalViews.style.width = viewWidthInput.value;
+                }
+                if (teamSelect && uiWidthInput.value) {
+                    teamSelect.style.width = uiWidthInput.value;
+                }
+
+                if (heightInput.value) {
+                    if (bottomSection) bottomSection.style.height = heightInput.value;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

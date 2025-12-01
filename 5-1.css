@@ -1,0 +1,77 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: #f9f9f9;
+}
+
+.card-grid-container {
+    display: grid;
+    /* PC版: 3列均等幅（自動調整） */
+    /* auto-fit: コンテナに収まるだけ列を作成 */
+    /* minmax(280px, 1fr): 各列の最小幅は280px、最大は残りのスペースを均等に分配 */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px; /* カード間の間隔 */
+    max-width: 1200px;
+    margin: 0 auto; /* 中央寄せ */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    text-align: center;
+    
+    /* カード内のコンテンツをFlexboxで縦に並べる（オプション） */
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-between; /* 上下均等に配置 */
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
+    display: block; /* 画像の下の余白を消す */
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    font-size: 1.2em;
+    margin: 10px 10px 5px 10px;
+    color: #333;
+}
+
+.card p {
+    font-size: 0.9em;
+    color: #666;
+    margin: 0 10px 10px 10px;
+    flex-grow: 1; /* コンテンツが短い場合に、テキストエリアが伸びる */
+}
+
+.card button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card button:hover {
+    background-color: #0056b3;
+}
+
+/* レスポンシブ対応 (メディアクエリ) */
+@media (max-width: 768px) {
+    .card-grid-container {
+        grid-template-columns: 1fr; /* スマホでは1列 */
+        padding: 10px;
+    }
+}

@@ -1,0 +1,86 @@
+/* --- ベースとレイアウト --- */
+.ui-box {
+    width: 300px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 50px auto;
+    cursor: pointer;
+    transition: all 0.3s ease; /* 変化を滑らかにする */
+}
+
+.auth-content {
+    display: flex;
+    align-items: center;
+}
+
+/* --- アイコンエリアの基本 --- */
+.icon-area {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    
+    /* 初期状態：四角いチェックボックス */
+    border: 2px solid #555;
+    border-radius: 3px;
+    
+    /* スピナーとXマークを真ん中に表示するための設定 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* --- スピナーアニメーション (初期状態は隠す) --- */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.ui-box.loading .icon-area {
+    /* 四角い枠線をスピナー用に変更 */
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-top-color: #3498db; /* 青い部分が回転する */
+    border-radius: 50%; /* スピナーを円形にする */
+    
+    /* アニメーションを再生 */
+    animation: spin 1s linear infinite; 
+}
+
+/* --- 失敗時の表示 --- */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+
+.ui-box.failure {
+    background-color: #FFEBEE; /* 薄い赤 */
+    animation: shake 0.5s; /* 揺れアニメーションを適用 */
+}
+
+.ui-box.failure .icon-area {
+    /* スピナーと四角のスタイルをリセットし、Xマークの見た目を設定 */
+    background-color: #F44336; /* 赤 */
+    color: white;
+    border: none; /* 枠線なし */
+    border-radius: 50%;
+    content: "\2715"; /* Xマークを表示 */
+}
+
+/* 失敗時にテキストを修正 */
+.ui-box.failure #authText {
+    color: #F44336;
+}
+
+/* --- JSで使う状態の切り替え --- */
+
+/* ローディング中はテキストを変更 */
+.ui-box.loading #authText {
+    color: #3498db;
+}
+
+/* 通常・ロード状態ではXマークを隠す */
+.icon-area:not(.ui-box.failure .icon-area)::after {
+    content: ""; /* Xマークを消す */
+}

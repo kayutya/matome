@@ -1,0 +1,61 @@
+
+
+.btn-pop {
+
+    display: inline-block; 
+    
+ 
+    text-decoration: none; 
+    
+ 
+    color: #ffffff; 
+    
+    font-weight: bold; 
+    
+ background-color: #e74c3c;
+    
+  
+    padding: 25px; 
+    
+  
+    border-radius: 50%; 
+    
+    
+    box-shadow: 0 5px 0 #c0392b; 
+    
+   
+    cursor: pointer;
+}
+
+
+.btn-pop:hover {
+   
+    background-color: #c0392b;
+    
+    
+    box-shadow: 0 2px 0 #a93226; 
+    
+    
+    transform: translateY(3px); 
+}
+.background-stripe {
+  
+    background-image: linear-gradient(45deg, #FFD700 25%, #000000 25%, #000000 50%, #FFD700 50%, #FFD700 75%, #000000 75%);
+    background-size: 40px 40px; 
+    
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+    width: 150px; 
+    height: 150px; 
+    
+  
+    position: relative; 
+    z-index: 1; 
+    
+    
+    overflow: hidden; 
+   
+}
